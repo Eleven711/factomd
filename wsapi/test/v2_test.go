@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 	"github.com/FactomProject/factomd/common/primitives"
+	//"encoding/json"
 )
 
 type AddressRequest struct {
@@ -15,6 +16,7 @@ func TestHandleFactoidBalance(t *testing.T) {
 	jsonStr := []byte(`{"jsonrpc":"2.0","id":0,"params":{"Address":"FA2jK2HcLnRdS94dEcU27rF3meoJfpUcZPSinpb7AwQvPRY6RL1Q"},"method":"factoid-balance"}`)
 
 	j, err := primitives.ParseJSON2Request(string(jsonStr))
+	t.Log(j)
 	params := j.Params
 	
 	if err != nil {
@@ -27,11 +29,8 @@ func TestHandleFactoidBalance(t *testing.T) {
 }
 
 func HandleV2FactoidBalance(params interface{},t *testing.T)  {
-	t.Log("params:",params) 
-	
-	fadr, ok := params.(AddressRequest)
-     	if !ok {
-		t.Errorf("ok: %b",ok)
-	}
+	strs := params.(map[string]interface {}) 
+	fadr := strs["Address"]
+
 	fmt.Println(fadr)	
 }
